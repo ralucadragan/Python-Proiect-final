@@ -1,0 +1,143 @@
+
+{% extends 'base.html' %}
+{% block title%} Nia Salon-Clients {% endblock%}
+
+{% block content %}
+  <div class="container">
+    <br/><br/>
+    <div class="row">
+      <div class="col md-12" style="background-color:pink;">
+        <br/><br/>
+        <div class="jumbotron jumbotron-fluid">
+          <br/><br/>
+          <h2>Manege <b>Clients</b>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#mymodal">Add New Client</button>
+          </h2>
+          <br/><br/><br/><br/>
+          <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Telephone</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for row in clients %}
+              <tr>
+                <th>{{row.id}}</th>
+                <td>{{row.first_name}}</td>
+                <td>{{row.last_name}}</td>
+                <td>{{row.age}}</td>
+                <td>{{row.gender}}</td>
+                <td>{{row.phone}}</td>
+                <td>{{row.email}}</td>
+                <td>
+                  <a href="/updatec/{{row.id}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                  <a href="/deletec/{{row.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this client?')">Delete</a>
+                </td>
+              </tr>
+
+              <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Update Informations</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{{url_for('updatec')}}" method="POST">
+                        <div class="form-group">
+                          <label>FirstName:</label>
+                          <input type="hidden" name="id" value="{{row.id}}">
+                          <input type="text" class="form-control" name="firstname" value="{{row.first_name}}">
+                        </div>
+                        <div class="form-group">
+                          <label>LastName:</label>
+                          <input type="text" class="form-control" name="lastname" value="{{row.last_name}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Age:</label>
+                          <input type="number" class="form-control" name="age" value="{{row.age}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Gender:</label>
+                          <input type="text" class="form-control" name="gender" value="{{row.gender}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Telephone:</label>
+                          <input type="number" class="form-control" name="phone" value="{{row.phone}}">
+                        </div>
+                        <div class="form-group">
+                          <label>E-mail:</label>
+                          <input type="email" class="form-control" name="email" value="{{row.email}}">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="mymodal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add new client</h4>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('insertc')}}" method="POST">
+                  <div class="form-group">
+                    <label>FirstName:</label>
+                    <input type="text" class="form-control" name="firstname" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>LastName:</label>
+                    <input type="text" class="form-control" name="lastname" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Age:</label>
+                    <input type="number" class="form-control" name="age" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Gender(F/M):</label>
+                    <input type="text" class="form-control" name="gender" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Telephone:</label>
+                    <input type="number" class="form-control" name="phone" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="email" class="form-control" name="email" required="1">
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Add New Client</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

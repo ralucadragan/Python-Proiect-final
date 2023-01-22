@@ -1,0 +1,111 @@
+
+{% extends 'base.html' %}
+{% block title%} Nia Salon-Services {% endblock%}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+      <div class="col md-12" style="background-color:pink;">
+        <br/>
+        <div class="jumbotron jumbotron-fluid">
+          <h2>Manege <b>Services</b>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#mymodal">Add New Service</button>
+          </h2>
+          <br/><br/><br/><br/>
+          <table class="table table-hover">
+            <thead>
+            <br/>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Sub-Service</th>
+                <th scope="col">Service</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for row in services %}
+              <tr>
+                <th>{{row.id}}</th>
+                <td>{{row.sub_service}}</td>
+                <td>{{row.service}}</td>
+                <td>{{row.price}}</td>
+                <td>
+                  <a href="/updatee/{{row.id}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                  <a href="/deletee/{{row.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this service?')">Delete</a>
+                </td>
+              </tr>
+
+              <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Update Informations</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{{url_for('updatee')}}" method="POST">
+                        <div class="form-group">
+                          <label>Sub-Service:</label>
+                          <input type="hidden" name="id" value="{{row.id}}">
+                          <input type="text" class="form-control" name="subservice" value="{{row.sub_service}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Service:</label>
+                          <input type="text" class="form-control" name="service" value="{{row.service}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Price:</label>
+                          <input type="number" class="form-control" name="price" value="{{row.price}}">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="mymodal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add new service</h4>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('inserte')}}" method="POST">
+                  <div class="form-group">
+                    <label>Sub-service:</label>
+                    <input type="text" class="form-control" name="subservice" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Service:</label>
+                    <input type="text" class="form-control" name="service" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Price:</label>
+                    <input type="number" class="form-control" name="price" required="1">
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Add New Service</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

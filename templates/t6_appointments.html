@@ -1,0 +1,132 @@
+
+{% extends 'base.html' %}
+{% block title%} Nia Salon-Appointments {% endblock%}
+
+{% block content %}
+
+<div class="container">
+    <br/><br/><br/>
+    <div class="row">
+      <div class="col md-12" style="background-color:pink;">
+        <br/><br/>
+        <div class="jumbotron jumbotron-fluid">
+          <br/>
+          <h2>Manege <b>Appointments  26.01.2023</b>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#mymodal">Add New Row:</button>
+          </h2>
+          <br/><br/><br/>
+          <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Time</th>
+                <th scope="col">Client FirstName</th>
+                <th scope="col">Client LastName</th>
+                <th scope="col">Sub Service</th>
+                <th scope="col">Id</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for row in appointments %}
+              <tr>
+                <td>{{row.employee_name}}</td>
+                <td>{{row.hour}}</td>
+                <td>{{row.client_firstname}}</td>
+                <td>{{row.client_lastname}}</td>
+                <td>{{row.sub_service}}</td>
+                <th>{{row.id}}</th>
+                <td>
+                  <a href="/updatea/{{row.id}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit appointment</a>
+                </td>
+              </tr>
+
+              <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Update Informations</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{{url_for('updatea')}}" method="POST">
+                        <div class="form-group">
+                          <label>Employee Name:</label>
+                          <input type="text" class="form-control" name="employeename" value="{{row.employee_name}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Time:</label>
+                          <input type="text" class="form-control" name="hour" value="{{row.hour}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Client FirstName:</label>
+                          <input type="text" class="form-control" name="clientfirstname" value="{{row.client_firstname}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Client LastName:</label>
+                          <input type="text" class="form-control" name="clientlastname" value="{{row.client_lastname}}">
+                        </div>
+                        <div class="form-group">
+                          <label>Sub Service:</label>
+                          <input type="text" class="form-control" name="subservice" value="{{row.sub_service}}">
+                          <input type="hidden" name="id" value="{{row.id}}">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="mymodal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add new row</h4>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('inserta')}}" method="POST">
+                  <div class="form-group">
+                    <label>Employee Name:</label>
+                    <input type="text" class="form-control" name="employeename" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Time:</label>
+                    <input type="text" class="form-control" name="hour" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Client FirstName:</label>
+                    <input type="text" class="form-control" name="clientfirstname" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Client LastName:</label>
+                    <input type="text" class="form-control" name="clientlastname" required="1">
+                  </div>
+                  <div class="form-group">
+                    <label>Sub Service:</label>
+                    <input type="text" class="form-control" name="subservice" required="1">
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
